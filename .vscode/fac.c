@@ -1,11 +1,13 @@
 #include <stdio.h>
 
-int f(int x) {
-    return x + 1;
+int f(int x) 
+int y;
+{
+    return x + y;
 }
 
 int g(int x) {
-    return x * 2;
+    return x * y;
 }
 
 int main() {
