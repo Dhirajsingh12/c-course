@@ -6,8 +6,6 @@
 
 int disk[MAX_SIZE];
 int disk_size = MAX_SIZE;
-
-// Function to initialize the disk
 void initializeDisk()
 {
     for (int i = 0; i < disk_size; i++)
@@ -15,25 +13,19 @@ void initializeDisk()
         disk[i] = FREE;
     }
 }
-
-// Allocate contiguous blocks and store a single data value
 int allocateContiguous(int start_block, int num_blocks, int data)
 {
     if (start_block < 0 || start_block + num_blocks > disk_size)
     {
         return -1;
     }
-
-    // Check if all blocks in the range are free
     for (int i = start_block; i < start_block + num_blocks; i++)
     {
         if (disk[i] != FREE)
         {
-            return -1; // Space is not free
+            return -1; 
         }
     }
-
-    // Allocate all blocks with the same data
     for (int i = start_block; i < start_block + num_blocks; i++)
     {
         disk[i] = data;
@@ -41,8 +33,6 @@ int allocateContiguous(int start_block, int num_blocks, int data)
 
     return start_block;
 }
-
-// Free allocated blocks by resetting to -1
 void freeContiguous(int start_block, int num_blocks)
 {
     if (start_block < 0 || start_block + num_blocks > disk_size)
@@ -58,8 +48,6 @@ void freeContiguous(int start_block, int num_blocks)
 
     printf("Blocks from %d to %d freed.\n", start_block, start_block + num_blocks - 1);
 }
-
-// Display disk status
 void displayDisk()
 {
     printf("Disk Status (FREE = -1):\n");
@@ -69,8 +57,6 @@ void displayDisk()
     }
     printf("\n");
 }
-
-// Show occupied blocks and their data
 void showOccupiedBlocks()
 {
     printf("Occupied Blocks:\n");
@@ -88,8 +74,6 @@ void showOccupiedBlocks()
         printf("No blocks are currently occupied.\n");
     }
 }
-
-// Count the number of files (contiguous blocks) in the disk
 int countFiles()
 {
     int fileCount = 0;
@@ -100,17 +84,15 @@ int countFiles()
     {
         if (disk[i] != FREE && !inFile)
         {
-            fileStart = i;  // Mark the start of a file
-            inFile = 1;     // We're inside a file now
+            fileStart = i;  
+            inFile = 1;    
         }
         else if (disk[i] == FREE && inFile)
         {
             printf("File %d: Start = %d, End = %d\n", ++fileCount, fileStart, i - 1);
-            inFile = 0;   // We've left a file
+            inFile = 0;
         }
     }
-
-    // If the last file reaches the end of the disk
     if (inFile)
     {
         printf("File %d: Start = %d, End = %d\n", ++fileCount, fileStart, disk_size - 1);
@@ -118,8 +100,6 @@ int countFiles()
 
     return fileCount;
 }
-
-// Display free space ranges (contiguous free blocks)
 void displayFreeSpaceRanges()
 {
     int inFreeSpace = 0;
@@ -130,7 +110,7 @@ void displayFreeSpaceRanges()
     {
         if (disk[i] == FREE && !inFreeSpace)
         {
-            freeStart = i;  // Start of a free space range
+            freeStart = i;
             inFreeSpace = 1;
         }
         else if (disk[i] != FREE && inFreeSpace)
@@ -139,15 +119,11 @@ void displayFreeSpaceRanges()
             inFreeSpace = 0;
         }
     }
-
-    // If the free space reaches the end of the disk
     if (inFreeSpace)
     {
         printf("Free range: Start = %d, End = %d\n", freeStart, disk_size - 1);
     }
 }
-
-// Display free space
 void displayFreeSpace()
 {
     int freeSpace = 0;
@@ -200,7 +176,7 @@ int main()
                 printf("Allocation failed. Not enough space or invalid input.\n");
             }
 
-            displayFreeSpaceRanges();  // Show free space ranges after allocation
+            displayFreeSpaceRanges(); 
             break;
 
         case 2:
@@ -210,7 +186,7 @@ int main()
             scanf("%d", &num_blocks);
             freeContiguous(start_block, num_blocks);
 
-            displayFreeSpaceRanges();  // Show free space ranges after freeing blocks
+            displayFreeSpaceRanges();
             break;
 
         case 3:
@@ -219,7 +195,7 @@ int main()
 
         case 4:
             printf("Number of files (contiguous allocated blocks): %d\n", countFiles());
-            displayFreeSpace();  // Display free space after every operation
+            displayFreeSpace();
             break;
 
         case 5:
@@ -227,7 +203,7 @@ int main()
             break;
 
         case 6:
-            displayFreeSpaceRanges();  // Show free space ranges
+            displayFreeSpaceRanges();
             break;
 
         case 7:
